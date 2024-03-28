@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f5f9; /* Light blue background */
+        }
+
+        .data-entry-container {
+            background-color: #ffffff; /* White background */
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Light shadow */
+            width: 35rem;
+            margin-left: 27rem;
+        }
+
+        .data-entry-heading {
+            color: #333333; /* Dark grey text */
+        }
+
+        .data-entry-form {
+            margin-top: 10px;
+        }
+
+        .data-entry-form label {
+            color: #333333; /* Dark grey text */
+        }
+
+        .data-entry-form textarea {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #cccccc; /* Light grey border */
+            border-radius: 5px;
+            height: 15rem;
+        }
+
+        .data-entry-form input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        .data-display-container {
+            background-color: #ffffff; /* White background */
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Light shadow */
+            width: 60rem;
+            margin-left: 14rem;
+        }
+
+        .your-collection-heading {
+            color: #333333; /* Dark grey text */
+        }
+
+        .collection-container {
+            margin-top: 10px;
+        }
+
+        .record {
+            background-color: #e6f0ff; /* Light blue background */
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+        }
+
+        .text-data {
+            color: #333333; /* Dark grey text */
+            margin-bottom: 5px;
+            width: 50%;
+            padding-right: 5rem;
+            border-right: 1px solid black;
+        }
+
+        .file-name {
+            /* color: #0066cc; Blue text */
+            width:20rem;
+            margin-left: 5rem;
+        }
+
+        .file-name a {
+            text-decoration: none;
+            color: #0066cc; /* Blue text */
+            display: block;
+        }
+
+        .file-name a:hover {
+            text-decoration: underline;
+        }
+        .header-container {
+    background-color: #3F51B5;
+    color: #fff;
+    display: flex;
+    padding: 20px;
+    
+}
+
+.brand-title {
+    font-size: 36px;
+    margin: 0;
+    margin-left: 40px;
+}
+button[type="submit"] {
+    width: 20%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+button[type="submit"]:focus {
+    outline: none;
+}
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <h1 class="brand-title">
+            DataHive
+        </h1>
+        
+    </div>
+    <div class="data-entry-container">
+        <h2 class="data-entry-heading">Add Data</h2>
+        <form class="data-entry-form" id="uploadForm">
+            <label for="data-entry-inp">Enter Caption:</label><br>
+            <textarea name="data-entry-inp" placeholder="Enter Text..." id="caption"></textarea><br>
+            <label for="file-inp">Choose Input File:</label>
+            <input type="file" name="file-inp" id="fileInput"><br><br>
+            <button type="submit" id="submitBtn">Upload</button>
+        </form>
+    </div>
+    <div class="data-display-container">
+        <h2 class="your-collection-heading">
+            Data Collection
+        </h2>
+        
+        <div class="collection-container" id="userCollection">
+            
+        </div>
+    </div>
+    <script>
+        window.onload = function() {
+    fetch('http://localhost:5501/dashboard')
+        .then(response => response.json())
+        .then(data => {
+            // Get the collection container
+            const collectionContainer = document.getElementById('userCollection');
+
+            // Loop through the data and create HTML elements for each item
+            data.forEach(item => {
+                // Create a div for each record
+                const recordDiv = document.createElement('div');
+                        recordDiv.classList.add('record');
+
+                        // Create a div for text data
+                        const textDataDiv = document.createElement('div');
+                        textDataDiv.classList.add('text-data');
+                        textDataDiv.textContent = item.text;
+
+                        // Create a div for file name and download link
+                        const fileNameDiv = document.createElement('div');
+                        fileNameDiv.classList.add('file-name');
+                        fileNameDiv.textContent = item.filename;
+                        // const downloadLink = document.createElement('a');
+                        // downloadLink.textContent = 'Download';
+                        // downloadLink.href = '#' // Add the link to download the file
+                        // fileNameDiv.appendChild(downloadLink);
+                        const downloadLink = document.createElement('a');
+                downloadLink.textContent = 'Download';
+                downloadLink.href = `http://localhost:5501/files/${item.filename}`;
+                downloadLink.setAttribute('download', item.filename); // Add 'download' attribute to force download
+                
+                // Append download link to the file name div
+                fileNameDiv.appendChild(downloadLink);
+
+                        // Append textDataDiv and fileNameDiv to the recordDiv
+                        recordDiv.appendChild(textDataDiv);
+                        recordDiv.appendChild(fileNameDiv);
+
+                        // Append the recordDiv to the collection container
+                        collectionContainer.appendChild(recordDiv);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+};
+document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var caption = document.getElementById('caption').value;
+            var fileInput = document.getElementById('fileInput');
+            var file = fileInput.files[0];
+            console.log(file);
+            if (!file) {
+                alert('Please select a file.');
+                return;
+            }
+
+            var formData = new FormData();
+            formData.append('file', file,file.name);
+            formData.append('text', caption);
+            console.log(formData);
+            fetch('http://localhost:5501/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('File uploaded successfully!');
+                } else {
+                    alert('Failed to upload file.');
+                }
+            })
+            .catch(error => {
+                console.error('Error uploading file:', error);
+                alert('An error occurred while uploading file.');
+            });
+        });
+    </script>
+</body>
+</html>

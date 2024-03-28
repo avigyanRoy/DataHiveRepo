@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+    <div class="header-container">
+        <h1 class="brand-title">
+            DataHive
+        </h1>
+        
+    </div>
+    <div class="heading">
+        Sign Up
+    </div>
+    <form id="signupForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <button type="submit" >Sign Up</button>
+    </form>
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var username = document.getElementById('username').value;
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+
+    var user = {
+        username: username,
+        email: email,
+        password: password
+    };
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost:5501/signup', true);
+
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(user));
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // alert("Signed up Successfully!");
+                    window.location.href = 'dashboard.html';   
+                }
+                else {
+                    alert('An error occurred. Please try again later.');
+                }
+                
+            };
+    
+});
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</body>
+</html>

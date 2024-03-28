@@ -1,0 +1,107 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.header-container {
+    background-color: #3F51B5;
+    color: #fff;
+    display: flex;
+    padding: 20px;
+    
+}
+
+.brand-title {
+    font-size: 36px;
+    margin: 0;
+    margin-left: 40px;
+}
+
+.opening-text {
+    font-size: 13px;
+    margin-top: 10px;
+    font-style: italic;
+    margin-left: 10px;
+    margin-top: 20px;
+}
+
+.body-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.about-section {
+    margin-bottom: 40px;
+    text-align: center;
+    border-bottom: 1px solid grey;
+    padding-bottom: 60px;
+}
+
+.about-brand {
+    color: #3F51B5;
+    margin-top: 5rem;
+    font-size: 3rem;
+}
+
+.about-txt {
+    font-size: 1.5rem;
+    line-height: 1.5;
+}
+
+.cta-section {
+    /* background-color: #f5f5f5; */
+    display: flex;
+    padding: 20px;
+    border-radius: 5px;
+    width:800px;
+}
+
+.cta-heading {
+    color: #3F51B5;
+    margin-top: 0;
+    margin-left: 15rem;
+}
+
+.cta-text {
+    font-size: 18px;
+    /* margin-top: 10px; */
+    margin-left: 15rem;
+}
+
+.cta-btn-cluster {
+    
+    /* justify-content: space-between; */
+    margin-top: 5px;
+    margin-left: 5rem;
+    text-align: center;
+}
+
+button {
+    background-color: #3F51B5;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width : 12rem;
+    font-size: larger;
+    margin-bottom: 5px;
+}
+
+.cta-btn-cluster div{
+    font-size: smaller;
+}
+
+button:hover {
+    background-color: #303F9F;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 90px;
+    padding: 20px 0;
+    background-color: rgb(240, 240, 240);
+    color: #000000;
+}

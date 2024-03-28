@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="signup.css">
+</head>
+
+<body>
+    <div class="header-container">
+        <h1 class="brand-title">
+            DataHive
+        </h1>
+        
+    </div>
+    <div class="heading">
+        Log In
+    </div>
+    <form id="signupForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <button type="submit">Log In</button>
+    </form>
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            var loginData = {
+                username: username,
+                password: password
+            };
+
+            var jsonData = JSON.stringify(loginData);
+
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:5501/login', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(jsonData);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    alert("Logged is Successfully!");
+                    window.location.href = 'dashboard.html';
+                }
+                else if (xhr.status === 401) { // Handle 401 for failed login
+        alert('Incorrect username or password.');
+    } else {
+        alert('An error occurred. Please try again later.'); // Handle other status codes
+    }
+                
+            };
+    
+        });
+
+    </script>
+</body>
+
+</html>
